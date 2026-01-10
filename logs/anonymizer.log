@@ -72,3 +72,9 @@
 2026-01-11 00:37:28,845 - INFO - islem basladi
 2026-01-11 00:37:28,926 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
 2026-01-11 00:37:28,926 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 00:39:38,928 - INFO - islem basladi
+2026-01-11 00:39:39,011 - INFO - Mapping CSV basariyla kaydedildi: case_09_01_2026_mapping.csv
+2026-01-11 00:39:39,011 - INFO - Basarili: case_09_01_2026_anonymized.docx
+2026-01-11 00:40:28,240 - INFO - islem basladi
+2026-01-11 00:40:28,311 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 00:40:28,311 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
