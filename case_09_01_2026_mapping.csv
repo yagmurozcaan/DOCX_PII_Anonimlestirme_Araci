@@ -7,7 +7,6 @@ AD_SOYAD,Murat AKSU,[AD_SOYAD_4],34,1
 AD_SOYAD,Hakan GÜLTEN,[AD_SOYAD_2],17,1
 BANKA_ADI,Garanti Bankası,[BANKA_ADI_1],31,1
 CADDE,Şehit Teğmen Kalmaz Cad.,[CADDE_1],6,1
-CADDE,Harman 1 Sk.,[CADDE_2],21,1
 DERNEK_KUTUK,34/108-120,[DERNEK_KUTUK_1],24,1
 E_POSTA,info@tmpk.org.tr,[E_POSTA_4],25,1
 E_POSTA,pul@ptt.gov.tr,[E_POSTA_1],11,1
@@ -22,6 +21,7 @@ MAHALLE,Esentepe Mah.,[MAHALLE_2],20,1
 MAHALLE,Hacı Bayram Veli Mah.,[MAHALLE_1],5,1
 NO,5,[NO_2],22,1
 NO,2,[NO_1],7,2
+SOKAK,Harman 1 Sk.,[SOKAK_1],21,1
 SUBE,Esentepe Şubesi,[SUBE_1],32,1
 TARIH,../../2025,[TARIH_1],29,1
 TELEFON,+90 (312) 509 51 79,[TELEFON_1],14,1

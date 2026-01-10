@@ -102,29 +102,48 @@ class Anonymizer:
     # ADRES İŞLEME
     # =========================
     def process_address(self, text: str) -> str:
-        addr_text = text.replace("\n", " ").replace("\t", " ").strip()
+        # 1️⃣ Word NBSP temizle
+        text = text.replace("\xa0", " ")
+
+        # 2️⃣ Tüm whitespace normalize
+        addr_text = re.sub(r"\s+", " ", text).strip()
+
         pattern = (
             r"(?P<mahalle>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Mah\.?|Mahallesi))\s+"
-            r"(?P<cadde>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Cad\.|Caddesi|Sok\.|Sk\.|Sokak))"
-            r"(?:\s+No[: ]\s?(?P<no>\d+))?\s*"
-            r"(?:\s*Kat[: ]\s?(?P<kat>\d+))?\s*"
-            r"(?:(?P<ilce>[\wÇĞİÖŞÜçğıöşü\d\s]+)\s*/\s*(?P<il>[\wÇĞİÖŞÜçğıöşü\d\s]+))?"
+            r"(?:(?P<cadde>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Cad\.|Caddesi))\s*)?"
+            r"(?:(?P<sokak>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Sok\.|Sk\.|Sokak))\s*)?"
+            r"(?:No[: ]\s?(?P<no>\d+))?\s*"
+            r"(?:Kat[: ]\s?(?P<kat>\d+))?\s*"
+            r"(?:(?P<ilce>[A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s*[/\-]\s*(?P<il>[A-Za-zÇĞİÖŞÜçığıöşü\s]+))?"
         )
+
         match = re.search(pattern, addr_text, flags=re.IGNORECASE)
         if not match:
             return text
 
+        # 3️⃣ Normalize edilmiş adres
         addr = re.sub(r"\s+", " ", match.group(0)).strip()
-        address_ph = self.get_placeholder("ADRES", addr)
-        text = text.replace(addr, address_ph)
 
-        fields = ["mahalle", "cadde", "sokak", "no", "kat", "ilce", "il"]
-        for f in fields:
-            if f in match.groupdict() and match.group(f):
-                value = match.group(f)
+        # 4️⃣ Placeholder üret
+        address_ph = self.get_placeholder("ADRES", addr)
+
+        # ❗❗ EN KRİTİK YER ❗❗
+        # Replace işlemi ORİJİNAL TEXT’TE değil NORMALIZE TEXT’TE olacak
+        addr_text = addr_text.replace(addr, address_ph, 1)
+
+        # Artık text'i normalize edilmiş versiyonla güncelliyoruz
+        text = addr_text
+
+        # 5️⃣ Alt bileşenleri map'e ekle
+        for f in ["mahalle", "cadde", "sokak", "no", "kat", "ilce", "il"]:
+            value = match.group(f)
+            if value:
                 ph = self.get_placeholder(f.upper(), value.strip())
                 text += f"\n{f.upper()}: {ph}"
+
         return text
+
+
 
     # =========================
     # GENEL PATTERNLERİ ANONİMLEŞTİRME
@@ -158,4 +177,4 @@ class Anonymizer:
         else:
             df = pd.DataFrame(columns=["TYPE","ORIGINAL","PLACEHOLDER","ID","OCCURRENCE_COUNT"])
         df.to_csv(path, index=False, encoding="utf-8-sig")
-        logging.info(f"Mapping CSV başarıyla kaydedildi: {path}")
+        logging.info(f"Mapping CSV basariyla kaydedildi: {path}")

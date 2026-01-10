@@ -1,6 +1,5 @@
 from docx import Document
-from .anonymizer import Anonymizer
-
+from anonymizer.anonymizer import Anonymizer
 class DocProcessor:
     """
     DOCX belgelerini Anonymizer kullanarak işleyen sınıf.
