@@ -120,7 +120,7 @@ pandas
 ### CLI ile çalıştırma
 
 ```bash
-python main.py --input case_09_01_2026.docx --output case_09_01_2026_anonymized.docx --mapping case_09_01_2026_mapping.csv --config config.json
+python main.py --input case_09_01_2026.docx --output results/case_09_01_2026_anonymized.docx --mapping results/case_09_01_2026_mapping.csv --config config.json
 ```
 
 Parametreler:

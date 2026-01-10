@@ -60,3 +60,15 @@
 2026-01-11 00:28:10,368 - INFO - islem basladi
 2026-01-11 00:28:10,451 - INFO - Mapping CSV basariyla kaydedildi: case_09_01_2026_mapping.csv
 2026-01-11 00:28:10,451 - INFO - Basarili: case_09_01_2026_anonymized.docx
+2026-01-11 00:36:10,800 - INFO - islem basladi
+2026-01-11 00:36:10,871 - INFO - Mapping CSV basariyla kaydedildi: case_09_01_2026_mapping.csv
+2026-01-11 00:36:10,871 - INFO - Basarili: case_09_01_2026_anonymized.docx
+2026-01-11 00:37:00,854 - INFO - islem basladi
+2026-01-11 00:37:00,924 - INFO - Mapping CSV basariyla kaydedildi: case_09_01_2026_mapping.csv
+2026-01-11 00:37:00,924 - INFO - Basarili: case_09_01_2026_anonymized.docx
+2026-01-11 00:37:09,328 - INFO - islem basladi
+2026-01-11 00:37:09,399 - INFO - Mapping CSV basariyla kaydedildi: case_09_01_2026_mapping.csv
+2026-01-11 00:37:09,400 - INFO - Basarili: case_09_01_2026_anonymized.docx
+2026-01-11 00:37:28,845 - INFO - islem basladi
+2026-01-11 00:37:28,926 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 00:37:28,926 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
