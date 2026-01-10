@@ -14,11 +14,11 @@ class Anonymizer:
         self.placeholder_map: Dict[str, str] = {}
         self.mapping: List[Dict[str, str]] = []
 
-        # JSON config oku
+        
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
 
-        # Dinamik pattern oluştur
+        
         self.patterns: List[Tuple[str, re.Pattern]] = []
 
         for ptype in ["KURUM", "UNVAN"]:
@@ -26,7 +26,7 @@ class Anonymizer:
                 joined = "|".join(re.escape(name) for name in config[ptype])
                 self.patterns.append((ptype, re.compile(rf"\b({joined})\b", re.IGNORECASE)))
 
-        # Diğer patternler sabit
+        
         self.patterns.extend([
             ("VERGI_NUMARASI", re.compile(r"\b\d{3}\s?\d{3}\s?\d{2}\s?\d{2}|\d{10}\b")),
             ("TICARET_SICIL", re.compile(r"\b\d{6}\b")),
@@ -40,7 +40,7 @@ class Anonymizer:
             ("TARIH", re.compile(r"\.\./\.\./2025|\b\d{2}[./-]\d{2}[./-]\d{4}\b")),
         ])
 
-        # AD-SOYAD regex
+        
         self.adsoyad_regex = re.compile(
             r"\b([A-ZÇĞİÖŞÜ][a-zçğıöşü]+(?:\s+[A-ZÇĞİÖŞÜ][a-zçğıöşü]+)*)"
             r"\s+([A-ZÇĞİÖŞÜ]{2,}(?:\s+[A-ZÇĞİÖŞÜ]{2,})*)\b",
@@ -51,9 +51,8 @@ class Anonymizer:
             re.UNICODE
         )
 
-    # =========================
     # PLACEHOLDER YÖNETİMİ
-    # =========================
+  
     def get_placeholder(self, ptype: str, value: str) -> str:
         key_value = self.normalize_text(value) if ptype in ["KURUM", "BANKA_ADI"] else value.strip()
         key = f"{ptype}_{key_value}"
@@ -77,9 +76,9 @@ class Anonymizer:
         text = re.sub(r"\s+", " ", text)
         return text.upper().strip()
 
-    # =========================
+   
     # AD-SOYAD İŞLEME
-    # =========================
+  
     def handle_names(self, text: str) -> str:
         for first, last in self.adsoyad_regex.findall(text):
             total_words = len(first.split()) + len(last.split())
@@ -98,14 +97,13 @@ class Anonymizer:
                 text = text.replace(surname, ph2)
         return text
 
-    # =========================
+    
     # ADRES İŞLEME
-    # =========================
+    
     def process_address(self, text: str) -> str:
-        # 1️⃣ Word NBSP temizle
+        
         text = text.replace("\xa0", " ")
 
-        # 2️⃣ Tüm whitespace normalize
         addr_text = re.sub(r"\s+", " ", text).strip()
 
         pattern = (
@@ -121,20 +119,16 @@ class Anonymizer:
         if not match:
             return text
 
-        # 3️⃣ Normalize edilmiş adres
+       
         addr = re.sub(r"\s+", " ", match.group(0)).strip()
 
-        # 4️⃣ Placeholder üret
+     
         address_ph = self.get_placeholder("ADRES", addr)
 
-        # ❗❗ EN KRİTİK YER ❗❗
-        # Replace işlemi ORİJİNAL TEXT’TE değil NORMALIZE TEXT’TE olacak
         addr_text = addr_text.replace(addr, address_ph, 1)
 
-        # Artık text'i normalize edilmiş versiyonla güncelliyoruz
         text = addr_text
 
-        # 5️⃣ Alt bileşenleri map'e ekle
         for f in ["mahalle", "cadde", "sokak", "no", "kat", "ilce", "il"]:
             value = match.group(f)
             if value:
@@ -145,9 +139,9 @@ class Anonymizer:
 
 
 
-    # =========================
+   
     # GENEL PATTERNLERİ ANONİMLEŞTİRME
-    # =========================
+
     def replace_patterns(self, text: str) -> str:
         for ptype, pattern in self.patterns:
             for m in pattern.findall(text):
@@ -155,18 +149,16 @@ class Anonymizer:
                 text = text.replace(value, self.get_placeholder(ptype, value))
         return text
 
-    # =========================
     # TÜM METİN ANONİMLEŞTİRME
-    # =========================
+
     def anonymize_text(self, text: str) -> str:
         text = self.handle_names(text)
         text = self.process_address(text)
         text = self.replace_patterns(text)
         return text
 
-    # =========================
     # MAPPING CSV OLUŞTURMA
-    # =========================
+
     def save_mapping(self, path: str):
         df = pd.DataFrame(self.mapping)
         if not df.empty:
