@@ -191,7 +191,7 @@ pytest tests/
 - ✅ Başarılı testler yeşil  
 - ❌ Başarısız testler kırmızı  
 
-4️⃣ **Testlerin anlamı**
+**Testlerin anlamı**
 - `tests/test_core.py` → **Unit Test** (tekil metodlar)  
 - `tests/test_integration.py` → **Integration Test** (tüm sınıf akışı)  
 
