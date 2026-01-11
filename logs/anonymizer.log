@@ -349,3 +349,95 @@
 2026-01-11 15:12:29,681 - INFO - islem basladi
 2026-01-11 15:12:29,747 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
 2026-01-11 15:12:29,747 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:44:46,947 - INFO - islem basladi
+2026-01-11 15:44:47,012 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:44:47,012 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:47:16,212 - INFO - islem basladi
+2026-01-11 15:47:16,289 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:47:16,289 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:49:57,479 - INFO - islem basladi
+2026-01-11 15:49:57,556 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:49:57,556 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:52:55,005 - INFO - islem basladi
+2026-01-11 15:52:55,070 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:52:55,070 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:54:43,853 - INFO - islem basladi
+2026-01-11 15:54:43,918 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:54:43,918 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:56:38,837 - INFO - islem basladi
+2026-01-11 15:56:38,913 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:56:38,914 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:58:22,107 - INFO - islem basladi
+2026-01-11 15:58:22,172 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 15:58:22,172 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 15:59:39,031 - INFO - islem basladi
+2026-01-11 15:59:39,055 - ERROR - Hata olustu: cannot access local variable 'line' where it is not associated with a value
+2026-01-11 16:01:25,371 - INFO - islem basladi
+2026-01-11 16:01:25,438 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:01:25,438 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:05:16,799 - INFO - islem basladi
+2026-01-11 16:05:16,875 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:05:16,875 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:09:05,862 - INFO - islem basladi
+2026-01-11 16:09:05,928 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:09:05,928 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:10:35,764 - INFO - islem basladi
+2026-01-11 16:10:35,840 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:10:35,840 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:12:07,814 - INFO - islem basladi
+2026-01-11 16:12:07,892 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:12:07,892 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:13:02,147 - INFO - islem basladi
+2026-01-11 16:13:02,223 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:13:02,223 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:17:49,542 - INFO - islem basladi
+2026-01-11 16:17:49,606 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:17:49,606 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:19:51,414 - INFO - islem basladi
+2026-01-11 16:19:51,489 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:19:51,490 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:25:39,538 - INFO - Ýþlem baþladý
+2026-01-11 16:25:39,615 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:25:39,615 - INFO - Baþarýlý: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:26:24,269 - INFO - islem basladi
+2026-01-11 16:26:24,349 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:26:24,349 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:28:45,806 - INFO - islem basladi
+2026-01-11 16:28:45,882 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:28:45,882 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:29:59,489 - INFO - islem basladi
+2026-01-11 16:29:59,555 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:29:59,555 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:31:45,308 - INFO - islem basladi
+2026-01-11 16:31:45,385 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:31:45,385 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:32:54,385 - INFO - islem basladi
+2026-01-11 16:32:54,446 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:32:54,446 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:33:29,650 - INFO - islem basladi
+2026-01-11 16:33:29,723 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:33:29,723 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:34:53,663 - INFO - islem basladi
+2026-01-11 16:34:53,734 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:34:53,734 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:35:47,131 - INFO - islem basladi
+2026-01-11 16:35:47,190 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:35:47,190 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:37:38,912 - INFO - islem basladi
+2026-01-11 16:37:38,974 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:37:38,974 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:38:00,805 - INFO - islem basladi
+2026-01-11 16:38:00,861 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:38:00,861 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:38:31,538 - INFO - islem basladi
+2026-01-11 16:38:31,596 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:38:31,596 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:38:59,061 - INFO - islem basladi
+2026-01-11 16:38:59,134 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:38:59,134 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:40:10,019 - INFO - islem basladi
+2026-01-11 16:40:10,079 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:40:10,079 - INFO - Basarili: results/case_09_01_2026_anonymized.docx
+2026-01-11 16:41:33,347 - INFO - islem basladi
+2026-01-11 16:41:33,423 - INFO - Mapping CSV basariyla kaydedildi: results/case_09_01_2026_mapping.csv
+2026-01-11 16:41:33,423 - INFO - Basarili: results/case_09_01_2026_anonymized.docx

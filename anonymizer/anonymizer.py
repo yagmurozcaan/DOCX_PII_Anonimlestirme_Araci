@@ -66,9 +66,7 @@ class Anonymizer:
                         "Ğ":"G","ğ":"G","Ö":"O","ö":"O","Ü":"U","ü":"U"}
         for k, v in replacements.items():
             text = text.replace(k, v)
-        # Nokta, virgül, tire, slash, parantez vb. kaldır
         text = re.sub(r"[.,\-/()]", "", text)
-        # Çoklu boşlukları tek boşluk yap
         text = re.sub(r"\s+", " ", text)
         return text.upper().strip()
 
@@ -94,8 +92,6 @@ class Anonymizer:
     # ADRES İŞLEME
     def process_address(self, text: str) -> str:
         addr_text = text.replace("\xa0", " ")
-
-        # Regex
         pattern = r"""(?P<mahalle>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Mah\.?|Mahallesi))[\s\t\r\n]+
                   (?:(?P<cadde>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Cad\.|Caddesi))[\s\t\r\n]*)?
                   (?:(?P<sokak>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Sok\.|Sk\.|Sokak))[\s\t\r\n]*)?
@@ -104,7 +100,6 @@ class Anonymizer:
                   (?:Kat[: ]\s?(?P<kat>\d+))?[\s\t\r\n]*
                   (?:(?P<ilce>[A-Za-zÇĞİÖŞÜçğıöşü\s]+)[\s\t\r\n]*[/\-][\s\t\r\n]*(?P<il>[A-Za-zÇĞİÖŞÜçğıöşü\s]+))?
                """
-
         match = re.search(pattern, addr_text, flags=re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
         if not match:
             return text
@@ -113,35 +108,46 @@ class Anonymizer:
         address_ph = self.get_placeholder("ADRES", addr_full)
         text = text.replace(addr_full, address_ph, 1)
 
-        # CSV için tüm parçaları placeholder yap
         for f in ["mahalle", "cadde", "sokak", "bina", "no", "kat", "ilce", "il"]:
             value = match.group(f)
             if value:
                 self.get_placeholder(f.upper(), value.strip())
-
         return text
 
     # GENEL PATTERNLERİ ANONİMLEŞTİRME
     def replace_patterns(self, text: str) -> str:
+       
+        # E-POSTA PLACEHOLDER
+
+        email_pattern = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
+        for email in email_pattern.findall(text):
+            ph = self.get_placeholder("E_POSTA", email.strip())
+            text = re.sub(re.escape(email), ph, text)
+
+
         for ptype, pattern in self.patterns:
+            if ptype == "E_POSTA":
+                continue 
             for m in pattern.findall(text):
                 value = m if isinstance(m, str) else m[0]
-
-                # normalize ederek noktasız eşleştirme
                 norm_value = self.normalize_text(value) if ptype in ["KURUM", "BANKA_ADI"] else value
                 placeholder = None
 
-                # Eğer daha önce maplenmişse aynı placeholder'ı kullan
+               
                 for key, ph in self.placeholder_map.items():
                     if key.startswith(ptype) and key.endswith(norm_value):
                         placeholder = ph
                         break
 
+                # Yoksa yeni placeholder oluştur
                 if not placeholder:
                     placeholder = self.get_placeholder(ptype, value)
 
+                # Metin içinde tüm eşleşmeleri placeholder ile değiştir
                 text = re.sub(re.escape(value), placeholder, text, flags=re.IGNORECASE)
+
         return text
+
 
     # TÜM METİN ANONİMLEŞTİRME
     def anonymize_text(self, text: str) -> str:
