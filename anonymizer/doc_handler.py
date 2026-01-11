@@ -10,26 +10,21 @@ class DocProcessor:
         self.anonymizer = anonymizer
 
     def anonymize_paragraph(self, paragraph):
-        # 1️⃣ Paragraf metnini birleştir
         full_text = paragraph.text
         if not full_text.strip():
             return
 
-        # 2️⃣ Anonimleştir
         anonymized_text = self.anonymizer.anonymize_text(full_text)
 
-        # 3️⃣ Paragrafı temizle
         for run in paragraph.runs:
             run.text = ""
 
-        # 4️⃣ Tek run ile geri yaz (stil bozulma riski minimal)
         if paragraph.runs:
             paragraph.runs[0].text = anonymized_text
         else:
             paragraph.add_run(anonymized_text)
 
     def anonymize_document(self, doc: Document) -> Document:
-        # Paragraflar
         for p in doc.paragraphs:
             self.anonymize_paragraph(p)
 
