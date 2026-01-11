@@ -9,8 +9,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-
-
+ 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="DOCX Anonimleştirme Aracı")
     parser.add_argument("--input", required=True, help="Girdi DOCX dosyası")

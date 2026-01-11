@@ -1,17 +1,43 @@
 from docx import Document
 from anonymizer.anonymizer import Anonymizer
+
 class DocProcessor:
     """
     DOCX belgelerini Anonymizer kullanarak işleyen sınıf.
+    Stil korunur ve tüm placeholder'lar oluşturulur.
     """
     def __init__(self, anonymizer: Anonymizer):
         self.anonymizer = anonymizer
 
+    def anonymize_paragraph(self, paragraph):
+        # 1️⃣ Paragraf metnini birleştir
+        full_text = paragraph.text
+        if not full_text.strip():
+            return
+
+        # 2️⃣ Anonimleştir
+        anonymized_text = self.anonymizer.anonymize_text(full_text)
+
+        # 3️⃣ Paragrafı temizle
+        for run in paragraph.runs:
+            run.text = ""
+
+        # 4️⃣ Tek run ile geri yaz (stil bozulma riski minimal)
+        if paragraph.runs:
+            paragraph.runs[0].text = anonymized_text
+        else:
+            paragraph.add_run(anonymized_text)
+
     def anonymize_document(self, doc: Document) -> Document:
+        # Paragraflar
         for p in doc.paragraphs:
-            p.text = self.anonymizer.anonymize_text(p.text)
+            self.anonymize_paragraph(p)
+
+        # Tablolar
         for table in doc.tables:
             for row in table.rows:
                 for cell in row.cells:
-                    cell.text = self.anonymizer.anonymize_text(cell.text)
+                    for p in cell.paragraphs:
+                        self.anonymize_paragraph(p)
+
         return doc

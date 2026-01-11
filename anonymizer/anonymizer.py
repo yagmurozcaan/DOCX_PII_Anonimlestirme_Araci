@@ -5,28 +5,23 @@ import pandas as pd
 from typing import List, Dict, Tuple
 
 class Anonymizer:
-    """
-    DOCX belgelerinde PII (kişisel veriler) anonimleştirmesi yapan sınıf.
-    Dinamik olarak kurum ve unvan listesi JSON dosyasından okunur.
-    """
     def __init__(self, config_path: str):
         self.placeholder_counters: Dict[str, int] = {}
         self.placeholder_map: Dict[str, str] = {}
         self.mapping: List[Dict[str, str]] = []
 
-        
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
 
-        
         self.patterns: List[Tuple[str, re.Pattern]] = []
 
+        # KURUM ve UNVAN patternleri
         for ptype in ["KURUM", "UNVAN"]:
             if ptype in config and config[ptype]:
                 joined = "|".join(re.escape(name) for name in config[ptype])
                 self.patterns.append((ptype, re.compile(rf"\b({joined})\b", re.IGNORECASE)))
 
-        
+        # Diğer regex patternler
         self.patterns.extend([
             ("VERGI_NUMARASI", re.compile(r"\b\d{3}\s?\d{3}\s?\d{2}\s?\d{2}|\d{10}\b")),
             ("TICARET_SICIL", re.compile(r"\b\d{6}\b")),
@@ -40,7 +35,7 @@ class Anonymizer:
             ("TARIH", re.compile(r"\.\./\.\./2025|\b\d{2}[./-]\d{2}[./-]\d{4}\b")),
         ])
 
-        
+        # Ad-Soyad regex
         self.adsoyad_regex = re.compile(
             r"\b([A-ZÇĞİÖŞÜ][a-zçğıöşü]+(?:\s+[A-ZÇĞİÖŞÜ][a-zçğıöşü]+)*)"
             r"\s+([A-ZÇĞİÖŞÜ]{2,}(?:\s+[A-ZÇĞİÖŞÜ]{2,})*)\b",
@@ -52,7 +47,6 @@ class Anonymizer:
         )
 
     # PLACEHOLDER YÖNETİMİ
-  
     def get_placeholder(self, ptype: str, value: str) -> str:
         key_value = self.normalize_text(value) if ptype in ["KURUM", "BANKA_ADI"] else value.strip()
         key = f"{ptype}_{key_value}"
@@ -66,19 +60,19 @@ class Anonymizer:
         self.mapping.append({"TYPE": ptype, "ORIGINAL": value.strip(), "PLACEHOLDER": ph})
         return ph
 
-    @staticmethod 
+    @staticmethod
     def normalize_text(text: str) -> str:
         replacements = {"İ":"I","ı":"I","Ş":"S","ş":"S","Ç":"C","ç":"C",
                         "Ğ":"G","ğ":"G","Ö":"O","ö":"O","Ü":"U","ü":"U"}
         for k, v in replacements.items():
             text = text.replace(k, v)
-        text = re.sub(r"[.,\-]", "", text)
+        # Nokta, virgül, tire, slash, parantez vb. kaldır
+        text = re.sub(r"[.,\-/()]", "", text)
+        # Çoklu boşlukları tek boşluk yap
         text = re.sub(r"\s+", " ", text)
         return text.upper().strip()
 
-   
     # AD-SOYAD İŞLEME
-  
     def handle_names(self, text: str) -> str:
         for first, last in self.adsoyad_regex.findall(text):
             total_words = len(first.split()) + len(last.split())
@@ -97,68 +91,66 @@ class Anonymizer:
                 text = text.replace(surname, ph2)
         return text
 
-    
     # ADRES İŞLEME
-    
     def process_address(self, text: str) -> str:
-        
-        text = text.replace("\xa0", " ")
+        addr_text = text.replace("\xa0", " ")
 
-        addr_text = re.sub(r"\s+", " ", text).strip()
+        # Regex
+        pattern = r"""(?P<mahalle>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Mah\.?|Mahallesi))[\s\t\r\n]+
+                  (?:(?P<cadde>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Cad\.|Caddesi))[\s\t\r\n]*)?
+                  (?:(?P<sokak>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Sok\.|Sk\.|Sokak))[\s\t\r\n]*)?
+                  (?:No[: ]\s?(?P<no>\d+))?[\s\t\r\n]*
+                  (?:(?P<bina>[\wÇĞİÖŞÜçğıöşü\d\s]+?(?:Plaza|Bina|Blok|Apartmanı))[\s\t\r\n]*)?
+                  (?:Kat[: ]\s?(?P<kat>\d+))?[\s\t\r\n]*
+                  (?:(?P<ilce>[A-Za-zÇĞİÖŞÜçğıöşü\s]+)[\s\t\r\n]*[/\-][\s\t\r\n]*(?P<il>[A-Za-zÇĞİÖŞÜçğıöşü\s]+))?
+               """
 
-        pattern = (
-            r"(?P<mahalle>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Mah\.?|Mahallesi))\s+"
-            r"(?:(?P<cadde>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Cad\.|Caddesi))\s*)?"
-            r"(?:(?P<sokak>[\wÇĞİÖŞÜçğıöşü\d\s]+(?:Sok\.|Sk\.|Sokak))\s*)?"
-            r"(?:No[: ]\s?(?P<no>\d+))?\s*"
-            r"(?:Kat[: ]\s?(?P<kat>\d+))?\s*"
-            r"(?:(?P<ilce>[A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s*[/\-]\s*(?P<il>[A-Za-zÇĞİÖŞÜçığıöşü\s]+))?"
-        )
-
-        match = re.search(pattern, addr_text, flags=re.IGNORECASE)
+        match = re.search(pattern, addr_text, flags=re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
         if not match:
             return text
 
-       
-        addr = re.sub(r"\s+", " ", match.group(0)).strip()
+        addr_full = match.group(0).strip()
+        address_ph = self.get_placeholder("ADRES", addr_full)
+        text = text.replace(addr_full, address_ph, 1)
 
-     
-        address_ph = self.get_placeholder("ADRES", addr)
-
-        addr_text = addr_text.replace(addr, address_ph, 1)
-
-        text = addr_text
-
-        for f in ["mahalle", "cadde", "sokak", "no", "kat", "ilce", "il"]:
+        # CSV için tüm parçaları placeholder yap
+        for f in ["mahalle", "cadde", "sokak", "bina", "no", "kat", "ilce", "il"]:
             value = match.group(f)
             if value:
-                ph = self.get_placeholder(f.upper(), value.strip())
-                text += f"\n{f.upper()}: {ph}"
+                self.get_placeholder(f.upper(), value.strip())
 
         return text
 
-
-
-   
     # GENEL PATTERNLERİ ANONİMLEŞTİRME
-
     def replace_patterns(self, text: str) -> str:
         for ptype, pattern in self.patterns:
             for m in pattern.findall(text):
                 value = m if isinstance(m, str) else m[0]
-                text = text.replace(value, self.get_placeholder(ptype, value))
+
+                # normalize ederek noktasız eşleştirme
+                norm_value = self.normalize_text(value) if ptype in ["KURUM", "BANKA_ADI"] else value
+                placeholder = None
+
+                # Eğer daha önce maplenmişse aynı placeholder'ı kullan
+                for key, ph in self.placeholder_map.items():
+                    if key.startswith(ptype) and key.endswith(norm_value):
+                        placeholder = ph
+                        break
+
+                if not placeholder:
+                    placeholder = self.get_placeholder(ptype, value)
+
+                text = re.sub(re.escape(value), placeholder, text, flags=re.IGNORECASE)
         return text
 
     # TÜM METİN ANONİMLEŞTİRME
-
     def anonymize_text(self, text: str) -> str:
-        text = self.handle_names(text)
         text = self.process_address(text)
+        text = self.handle_names(text)
         text = self.replace_patterns(text)
         return text
 
     # MAPPING CSV OLUŞTURMA
-
     def save_mapping(self, path: str):
         df = pd.DataFrame(self.mapping)
         if not df.empty:
